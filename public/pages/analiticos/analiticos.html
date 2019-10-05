@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/jquery-3.4.1.min.js"></script>
+    <script src="/bootstrap-4.3.1-dist/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <script src="/pages/analiticos/analiticos.js"></script>
+</head>
+<body>
+    <label>Buscar alumno por</label>
+    <select class="form-control" id="select-buscar-alumno">
+        <option>Numero</option>
+        <option>DNI</option>
+        <option>Nombre</option>
+    </select>
+    <br>
+    <div class="form-inline my-2 my-lg-0">
+        <input id="input-buscar-alumno" class="form-control mr-sm-2" type="search" aria-label="Search">
+        <button id="btn-buscar" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+    </div>
+    <div id="alert-clave-incorrecta" style="display: none" class="alert alert-warning alert-dismissible fade show" role="alert">
+        Contraseña incorrecta
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <br>
+    <div id="spinner-login" class="spinner-border text-success" role="status" style="display: none"></div>
+    <p id="no-hay-alumnos" style="display: none">No hay ningun alumno registrado con el dato ingresado</p>
+    <table class="table" style="display: none;">
+        <thead>
+        <tr>
+            <th scope="col">Número</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Fecha de ingreso</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div>
+        <object id="object-pdf-analitico" width="400px" height="400px" data=""></object>
+    </div>
+</body>
+</html>

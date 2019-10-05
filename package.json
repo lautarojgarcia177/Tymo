@@ -1,0 +1,21 @@
+{
+  "name": "tymo",
+  "version": "1.0.0",
+  "description": "Sistema para consultar informacion sobre estudiantes del plan 76",
+  "main": "serverTymo.js",
+  "scripts": {
+    "devStart": "nodemon serverTymo.js"
+  },
+  "author": "Lautaro Garcia",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "pdfkit": "^0.10.0",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "nodemon": "^1.19.3"
+  }
+}

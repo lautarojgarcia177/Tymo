@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tymo</title>
+    <script src="/jquery-3.4.1.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <script src="/pages/index/index.js"></script>
+</head>
+<body>
+    <h3>Ingrese la clave para ingresar</h3>
+    <br>
+    <div id="spinner-login" class="spinner-border text-success" role="status" style="display: none"></div>
+    <div id="login-form">
+        <input type="password" class="form-control" placeholder="Contraseña" id="password-login-input" type="text">
+        <br>
+        <button type="button" class="btn btn-primary" id="login-button">
+            Ingresar
+        </button>
+        <button type="button" class="btn btn-primary" id="test-button">
+            Test button
+        </button>
+    </div>
+    <br>
+    <div id="alert-clave-incorrecta" style="display: none" class="alert alert-warning alert-dismissible fade show" role="alert">
+        Contraseña incorrecta
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</body>
+</html>
