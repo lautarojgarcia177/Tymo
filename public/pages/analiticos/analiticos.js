@@ -98,8 +98,12 @@ function mostrarAnaliticoAlumno(alumno) {
         result.blob()
             .then( pdfblob => {
                 var blobURL = window.URL.createObjectURL(pdfblob);
-                window.open('https://developer.mozilla.org/en-US/docs/Web/API/Window/open', 'tab');
                 $('#object-pdf-analitico').attr({'data': blobURL});
             });
     })
-    .
+    .catch(err => {
+        console.log('Hubo un error al obtener el analítico', err);
+    });
+}
+
+

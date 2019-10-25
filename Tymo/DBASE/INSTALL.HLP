@@ -1,0 +1,23 @@
+                                     
+                     dBASE III PLUS HARD DISK INSTALLATION 
+    
+    dBASE III PLUS can be executed directly from this system disk, and you
+    can transfer a copy of dBASE III PLUS to a hard disk using this 
+    installation procedure.  You may also use this installation procedure to
+    install your ACCESS key or the DBASE ADMINISTRATOR. Once a copy of the
+    software is transferred to hard disk, it cannot be duplicated.  An 
+    installed copy of the software can be moved back to this dBASE III PLUS 
+    system disk by executing the UNINSTAL batch file.   
+    
+       o  The correct commands are the following:
+
+		Enter "INSTALL <drive:>" to install dBASE III PLUS.
+		Enter "INSTALL <drive:> ACCESS" to install ACCESS.
+		Enter "INSTALL <drive:> DBA" to install DBASE ADMINISTRATOR.
+
+          where <drive:> is the drive letter of the hard disk.
+
+       o  To install on a HARD DISK, press any key to continue.  Otherwise,
+          press Ctrl-C to abort this installation.  
+
+

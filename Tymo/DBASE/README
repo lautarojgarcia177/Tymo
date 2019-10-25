@@ -1,0 +1,14 @@
+                      IMPORTANT INFORMATION
+
+To improve performance of the applications generator, a linked
+version has been provided. It is run by typing:
+
+		DBASE APPSGEN <ENTER>
+
+or from within dBASE:
+
+		DO APPSGEN <ENTER>
+
+Because of this change, the listing of the disk directory differs
+from the documentation. 
+

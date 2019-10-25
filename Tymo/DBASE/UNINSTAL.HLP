@@ -1,0 +1,23 @@
+
+
+
+
+
+               dBASE III PLUS HARD DISK UNINSTALL PROCEDURE
+
+    The UNINSTAL procedure allows you to remove the copy of dBASE III PLUS,
+    ACCESS and DBASE ADMINISTRATOR from your hard disk and put on the
+    appropriate system disk.  Then you can install it onto this or 
+    another hard disk when you're ready, using the INSTALL batch file.
+
+        o  The correct commands are the following:
+
+              Enter "UNINSTAL <drive:>" to uninstall dBASE III PLUS.
+	      Enter "UNINSTAL <drive:> ACCESS" to uninstall ACCESS.
+	      Enter "UNINSTAL <drive:> DBA" to uninstall dBASE ADMINISTRATOR.
+   
+           where <drive:> is the drive letter of the hard disk.  
+
+        o  To uninstall from the hard disk, press any key to continue.
+	   Otherwise, press Ctrl-C to abort this uninstall procedure.
+

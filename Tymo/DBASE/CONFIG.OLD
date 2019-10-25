@@ -1,0 +1,5 @@
+files=40
+buffers=15
+rem device=dems.sys
+rem device=cache.sys 128
+device=\gmouse.sys 1*3 +0 BLR

@@ -1,0 +1,3 @@
+SET CLIPPER=F99	
+alumnos
+SET CLIPPER=

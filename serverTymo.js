@@ -14,6 +14,10 @@ app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname,'./public/pages/index/index.html'));
 });
 
+app.get('/index_template', (req,res) => {
+    res.sendFile(path.join(__dirname,'./public/pages/index_template/index.html'));
+});
+
 app.post('/login', (req,res) => {
     db.login(req.body.password, function(err, claveCorrecta) {
         if (err) {
