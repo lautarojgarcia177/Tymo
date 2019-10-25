@@ -1,33 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Sistema de emisión de reportes sobre alumnos del plan '76' de la carrera de filosofía">
+    <meta name="author" content="Lautaro Jorge García lautarojgarcia177@gmail.com">
+
     <title>Tymo</title>
+    
     <script src="/jquery-3.4.1.min.js"></script>
     <script src="bootstrap-4.3.1-dist/js/bootstrap.bundle.js"></script>
     <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link href="./pages/index_template/css/scrolling-nav.css" rel="stylesheet">
     <script src="/pages/index/index.js"></script>
 </head>
-<body>
-    <h3>Ingrese la clave para ingresar</h3>
-    <br>
-    <div id="spinner-login" class="spinner-border text-success" role="status" style="display: none"></div>
-    <div id="login-form">
-        <input type="password" class="form-control" placeholder="Contraseña" id="password-login-input" type="text">
-        <br>
-        <button type="button" class="btn btn-primary" id="login-button">
-            Ingresar
-        </button>
-        <button type="button" class="btn btn-primary" id="test-button">
-            Test button
-        </button>
-    </div>
-    <br>
-    <div id="alert-clave-incorrecta" style="display: none" class="alert alert-warning alert-dismissible fade show" role="alert">
-        Contraseña incorrecta
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<body id="page-top">
+
+      <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">Tymo</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="">Acerca de</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="">Funcionalidades</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="">Contacto</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <header class="bg-primary text-white">
+            <div class="container text-center">
+              <h1>Bienvenido a Tymo 2.0</h1>
+              <p class="lead">
+                  Sistema de consulta y emisión de reportes sobre la información pertinente a 
+                  los alumnos de la carrera de filosofía del plan 76'.
+              </p>
+            </div>
+    </header>
+
+    <section id="ingresar">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8 mx-auto" style="text-align: center;">
+                  <h2>Ingresar</h2>
+                  <p class="lead">
+                    Para ingresar, inserte la clave a continuación:  <br>
+                  </p>
+                  <div id="spinner-login" class="spinner-border text-success" role="status" style="display: none"></div>
+                  <form id="login-form" class="form-inline">
+                        <input type="password" class="form-control" style="width: 190px; opacity: 0;">
+                        <div class="form-group mx-sm-3 mb-2">
+                          <label for="password-login-input" class="sr-only">Password</label>
+                          <input type="password" class="form-control" id="password-login-input" placeholder="Contraseña">
+                        </div>
+                        <button type="button" class="btn btn-primary mb-2" id="login-button">Ingresar</button>
+                </form>
+                           <p class="lead" style="text-align: justify;">
+                                Si usted no conoce o no recuerda la clave pongase en contacto con algún responsable,
+                                para ello clickee en 'Contacto' en esta página arriba a la derecha.
+                            </p>
+                  <br>
+                  <div id="alert-clave-incorrecta" style="display: none" class="alert alert-warning alert-dismissible fade show" role="alert">
+                      Contraseña incorrecta
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </section>
+
+      <!-- Footer -->
+  <footer class="py-5 bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8"></div>
+                <div class="col-sm-4">
+                  <img src="/assets/logos-ffyh-unc.png" style="align-items: right;">
+                </div>
+            </div>          
+        </div>
+        <!-- /.container -->
+      </footer>
+    
+      <!-- Bootstrap core JavaScript -->
+      <script src="./pages/index_template/vendor/jquery/jquery.min.js"></script>
+      <script src="./pages/index_template/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+      <!-- Plugin JavaScript -->
+      <script src="./pages/index_template/vendor/jquery-easing/jquery.easing.min.js"></script>
+    
+      <!-- Custom JavaScript for this theme -->
+      <script src="./pages/index_template/js/scrolling-nav.js"></script>
+
 </body>
 </html>
