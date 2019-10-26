@@ -3,7 +3,27 @@ $(document).ready(function() {
         loguear();
     }
 
-    $('#login-button').on('click', function() {
+    $('#login-button').on('click', function () {
+        comprobarClave();
+    });
+    
+    $('#password-login-input').on('keyup', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            comprobarClave();
+        }
+    });
+    
+});
+
+
+
+function loguear() {
+    sessionStorage.setItem('logueado','true');
+    window.location.href = 'inicio.html';
+}
+
+function comprobarClave() {
         // hide form and show spinner
         $('#login-form').hide();
         $('#spinner-login').show();
@@ -29,12 +49,5 @@ $(document).ready(function() {
         }).catch(err => {
             console.log('Hubo un error al enviar la contraseña', err);
         });
-    });
-
-});
-
-function loguear() {
-    sessionStorage.setItem('logueado','true');
-    window.location.href = 'inicio.html';
-}
+};
 
