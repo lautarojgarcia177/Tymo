@@ -64,6 +64,28 @@ app.post('/analitico', (req,res) => {
     }
 });
 
+app.get('/analitico', (req,res) => {
+    console.log(req.query.alumnonro);
+    try {
+        db.datosAnaliticoAlumno(req.query.alumnonro, (err,rows) => {
+            if (err) {
+                res.statusCode = 500;
+                res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
+            } else {
+                pdfanalitico.generarPDFAnalitico(rows, res, (err) => {
+                    if (err) {
+                        res.statusCode = 500;
+                        res.end('Hubo un error al generar el pdf: ' + err.message);
+                    }
+                });
+            }
+        });
+    } catch (err) {
+        res.statusCode = 500;
+        res.end('Hubo un error al generar el analítico: ' + err.message);
+    }
+});
+
 app.post('/alumnosXnombre', (req,res) => {
     db.buscarEstudianteXNombre(req.body.nombre, (err,rows) => {
         if (err) {

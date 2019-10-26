@@ -146,7 +146,7 @@ function limpiar() {
     $('#no-hay-alumnos').hide();
     $('#alert-clave-incorrecta').hide();
 }
-
+/*
 function mostrarAnaliticoAlumno(alumno) {
     $('table').hide();
     $('#spinner-buscando').show();
@@ -169,6 +169,13 @@ function mostrarAnaliticoAlumno(alumno) {
     .catch(err => {
         console.log('Hubo un error al obtener el analítico', err);
     });
+} 
+*/
+
+function mostrarAnaliticoAlumno(alumno) {
+    $('table').hide();
+    $('#spinner-buscando').show();
+    window.open('/analitico?alumnonro=' + alumno.NRO_ALUM,'_blank');
+    $('table').show();
+    $('#spinner-buscando').hide();
 }
-
-
