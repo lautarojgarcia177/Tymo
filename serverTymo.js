@@ -64,9 +64,21 @@ app.post('/analitico', (req,res) => {
     }
 });
 
-app.post('/alumnos', (req,res) => {
+app.post('/alumnosXnombre', (req,res) => {
     db.buscarEstudianteXNombre(req.body.nombre, (err,rows) => {
         if (err) {
+            res.statusCode = 400;
+            res.end('Ha ocurrido un error ' + err.message);
+        } else {
+            res.statusCode = 200;
+            res.end(JSON.stringify(rows));
+        }
+    });
+});
+
+app.post('/alumnosXDNI', (req,res) => {
+    db.buscarEstudianteXDNI(req.body.dni, (err,rows) => {
+        if(err) {
             res.statusCode = 400;
             res.end('Ha ocurrido un error ' + err.message);
         } else {

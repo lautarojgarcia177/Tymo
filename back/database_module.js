@@ -36,10 +36,23 @@ exports.buscarEstudianteXNombre = function(name, callback) {
        if (err) {
            callback(err);
        } else {
-           callback(null,rows);
+           callback(null, rows);
        }
     });
   });
+};
+
+exports.buscarEstudianteXDNI = function(dni, callback) {
+    let sqlQuery = 'SELECT * FROM alumno WHERE dni = ' + dni + ';';
+    db.serialize( () => {
+        db.all(sqlQuery,function(err,rows) {
+            if(err) {
+                callback(err);
+            } else {
+                callback(null, rows);
+            }
+        });
+    });
 };
 
 exports.datosAnaliticoAlumno = function(alumnonro, callback) {

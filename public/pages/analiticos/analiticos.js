@@ -7,15 +7,15 @@ $(document).ready(function() {
    $('#btn-buscar').on('click', function() {
        if($('#input-buscar-alumno').val() !== '') {
            limpiar();
-           $('#spinner-login').show();
+           $('#spinner-buscando').show();
            switch($('#select-buscar-alumno').val()) {
                case 'Nombre':
                    var query = 'nombre=' + $('#input-buscar-alumno').val().toString();
                    buscarAlumnoPorNombre(query);
                    break;
                case 'DNI':
-                   buscarAlumnoPorDNI($('#input-buscar-alumno').val());
-                    // TODO
+                   var query = 'dni=' + $('#input-buscar-alumno').val();
+                   buscarAlumnoPorDNI(query);
                    break;
                case 'Numero':
                    buscarAlumnoPorNumero($('#input-buscar-alumno').val());
@@ -29,7 +29,7 @@ $(document).ready(function() {
 });
 
 function buscarAlumnoPorNombre(nombre) {
-    fetch('/alumnos', {
+    fetch('/alumnosXnombre', {
         method: 'POST',
         headers: {
         'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -37,16 +37,31 @@ function buscarAlumnoPorNombre(nombre) {
     body: nombre
 }).then( res => {
     res.json().then((data) => {
-        $('#spinner-login').hide();
+        $('#spinner-buscando').hide();
         mostrarTabla(data);
     });
 }).catch(err => {
-    console.log('Hubo un error al enviar la contraseña', err);
+    alert('Hubo un error al buscar los alumnos' + err);
+    console.log('Hubo un error al buscar los alumnos', err);
 });
 }
 
 function buscarAlumnoPorDNI(dni) {
- // TODO
+    fetch('/alumnosXDNI', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: dni
+    }).then( res => {
+        res.json().then((data) => {
+            $('#spinner-buscando').hide();
+            mostrarTabla(data);
+        });
+    }).catch(err => {
+        alert('Hubo un error al buscar los alumnos' + err);
+        console.log('Hubo un error al buscar los alumnos', err);
+    });
 }
 
 function buscarAlumnoPorNumero(numero) {
