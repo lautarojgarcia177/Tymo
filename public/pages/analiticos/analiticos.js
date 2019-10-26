@@ -30,6 +30,15 @@ $(document).ready(function() {
            $('#alert-clave-incorrecta').show();
        }
    });
+
+   $('#select-buscar-alumno').change(function() {
+        var value = $('#select-buscar-alumno').val();
+        if (value == 'Numero') {
+            $('#input-buscar-alumno').attr('type','number');
+        } else {
+            $('#input-buscar-alumno').attr('type','text');
+        }
+   }); 
 });
 
 function buscarAlumnoPorNombre(nombre) {
@@ -139,7 +148,9 @@ function limpiar() {
 }
 
 function mostrarAnaliticoAlumno(alumno) {
-    let alumnonroquery = 'alumnonro=' + alumno.numero;
+    $('table').hide();
+    $('#spinner-buscando').show();
+    let alumnonroquery = 'alumnonro=' + alumno.NRO_ALUM;
     fetch('/analitico', {
         method: 'POST',
         headers: {
@@ -152,6 +163,8 @@ function mostrarAnaliticoAlumno(alumno) {
                 var blobURL = window.URL.createObjectURL(pdfblob);
                 $('#object-pdf-analitico').attr({'data': blobURL});
             });
+        $('#spinner-buscando').hide();
+        $('table').hide();
     })
     .catch(err => {
         console.log('Hubo un error al obtener el analítico', err);

@@ -30,7 +30,7 @@ exports.login = function(password, callback) {
 };
 
 exports.buscarEstudianteXNombre = function(name, callback) {
-    let sqlQuery = 'SELECT * FROM alumno WHERE nombre LIKE "%' + name + '%";';
+    let sqlQuery = 'SELECT a.NRO_ALUM, a.TIP_DOC, a.NUM_DOC, a.NOMBRE FROM ALUMNOS a WHERE a.NOMBRE LIKE "%' + name + '%";';
   db.serialize( () => {
     db.all(sqlQuery, function(err,rows) {
        if (err) {
@@ -82,9 +82,7 @@ exports.buscarEstudianteXNumero = function(numero, callback) {
 };
 
 exports.datosAnaliticoAlumno = function(alumnonro, callback) {
-    let sqlQuery = 'SELECT m.nombre, ex.fecha, ex.nota, ex.libro, ex.acta, ex.pagina ' +
-        'FROM Materia m INNER JOIN examenes ex ON m.id = ex.materia ' +
-        'WHERE ex.alumno_nro = ' + alumnonro;
+    let sqlQuery = 'SELECT * FROM ALUMNOS WHERE NRO_ALUM = ' + alumnonro + ';';
     db.serialize( () => {
        db.all(sqlQuery, function(err,rows) {
          if(err) {
