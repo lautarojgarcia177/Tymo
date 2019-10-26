@@ -4,7 +4,7 @@ if (sessionStorage.getItem("logueado") !== "true") {
 }
 
 $(document).ready(function() {
-    $('#analitico-button').on('click', function() {
-       window.location.href = 'analiticos.html';
+    $(".opcion").on('click', function() {
+        window.location.href="analiticos.html";
     });
 });

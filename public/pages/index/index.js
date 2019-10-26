@@ -31,10 +31,6 @@ $(document).ready(function() {
         });
     });
 
-    $('#test-button').on('click', function() {
-        console.log('been here');
-    });
-
 });
 
 function loguear() {

@@ -77,7 +77,7 @@ app.post('/alumnos', (req,res) => {
 });
 
 app.use(function (req,res,next) {
-    res.status(404).send("Sorry, can't find that!");
+    res.status(404).sendFile(path.join(__dirname,'./public/pages/error/404.html'));
 });
 
 // listen to port 
