@@ -88,6 +88,30 @@ app.post('/alumnosXDNI', (req,res) => {
     });
 });
 
+app.post('/alumnosXLC', (req,res) => {
+    db.buscarEstudianteXLC(req.body.lc, (err,rows) => {
+        if(err) {
+            res.statusCode = 400;
+            res.end('Ha ocurrido un error ' + err.message);
+        } else {
+            res.statusCode = 200;
+            res.end(JSON.stringify(rows));
+        }
+    });
+});
+
+app.post('/alumnosXNumero', (req,res) => {
+    db.buscarEstudianteXNumero(req.body.numero, (err,rows) => {
+        if(err) {
+            res.statusCode = 400;
+            res.end('Ha ocurrido un error ' + err.message);
+        } else {
+            res.statusCode = 200;
+            res.end(JSON.stringify(rows));
+        }
+    });
+});
+
 app.use(function (req,res,next) {
     res.status(404).sendFile(path.join(__dirname,'./public/pages/error/404.html'));
 });

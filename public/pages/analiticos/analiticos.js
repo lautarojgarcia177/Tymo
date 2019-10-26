@@ -17,9 +17,13 @@ $(document).ready(function() {
                    var query = 'dni=' + $('#input-buscar-alumno').val();
                    buscarAlumnoPorDNI(query);
                    break;
+               case 'LC':
+                   var query = 'lc=' + $('#input-buscar-alumno').val();
+                   buscarAlumnoPorLC(query);
+                   break; 
                case 'Numero':
-                   buscarAlumnoPorNumero($('#input-buscar-alumno').val());
-                   // TODO
+                   var query = 'numero=' + $('#input-buscar-alumno').val();
+                   buscarAlumnoPorNumero(query); 
                    break;
            }
        } else {
@@ -64,8 +68,40 @@ function buscarAlumnoPorDNI(dni) {
     });
 }
 
+function buscarAlumnoPorLC(lc) {
+    fetch('/alumnosXLC', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: lc
+    }).then( res => {
+        res.json().then((data) => {
+            $('#spinner-buscando').hide();
+            mostrarTabla(data);
+        });
+    }).catch(err => {
+        alert('Hubo un error al buscar los alumnos' + err);
+        console.log('Hubo un error al buscar los alumnos', err);
+    });
+}
+
 function buscarAlumnoPorNumero(numero) {
-    // TODO
+    fetch('/alumnosXNumero', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: numero
+    }).then( res => {
+        res.json().then((data) => {
+            $('#spinner-buscando').hide();
+            mostrarTabla(data);
+        });
+    }).catch(err => {
+        alert('Hubo un error al buscar los alumnos' + err);
+        console.log('Hubo un error al buscar los alumnos', err);
+    });
 }
 
 // Muestra los resultados de una busqueda en una tabla para que se pueda seleccionar
@@ -77,8 +113,9 @@ function mostrarTabla(data) {
         let btnSeleccionarAlumno = '<button id="btn-seleccionar-alumno-' + acu
             +'" class="btn btn-outline-success my-2 my-sm-0 btn-seleccionar-alumno">Seleccionar</button>';
         data.forEach(function(item) {
-            newRow = '<tr><td>' + item.numero + '</td><td>' + item.dni + '</td><td>' +
-                item.nombre + '</td><td>' + item.fecha_ingreso + '</td><td>' + btnSeleccionarAlumno + '</td></tr>';
+            console.log(item);
+            newRow = '<tr><td>' + item.NRO_ALUM + '</td><td>' + item.TIP_DOC + '</td><td>' +
+                item.NUM_DOC + '</td><td>' + item.NOMBRE + '</td><td>' + btnSeleccionarAlumno + '</td></tr>';
             $('table tbody').append(newRow);
             acu++;
             btnSeleccionarAlumno = '<button id="btn-seleccionar-alumno-' + acu

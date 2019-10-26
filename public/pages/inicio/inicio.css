@@ -11,6 +11,16 @@
   .opcion { 
     background-color: #eafaee;
     margin: 5% 5% 5% 5%;
+    border-radius: 10px;
+  }
+
+  .opcion p {
+    padding: 7px;
+    text-align: justify;
+  }
+  
+  .opcion h4 {
+    padding: 7px;
   }
 
   .col-sm-4 :hover {

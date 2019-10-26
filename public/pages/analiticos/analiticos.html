@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
     <link href="./pages/index_template/css/scrolling-nav.css" rel="stylesheet">
     <script src="/pages/analiticos/analiticos.js"></script>
+    <link rel="stylesheet" href="/pages/analiticos/analiticos.css">
     <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
 </head>
 <body id="page-top">
@@ -37,6 +38,8 @@
         </div>
     </nav>
 
+    <h2 class="page-title">Certificado analítico</h2>
+
     <section>
         <div class="container">
             <label>Buscar alumno por</label>
@@ -45,6 +48,7 @@
                     <select class="form-control" id="select-buscar-alumno">
                         <option>Numero</option>
                         <option>DNI</option>
+                        <option>LC</option>
                         <option>Nombre</option>
                     </select>
                 </div>
@@ -69,9 +73,9 @@
                 <thead>
                 <tr>
                     <th scope="col">Número</th>
-                    <th scope="col">DNI</th>
+                    <th scope="col">Tipo Documento</th>
+                    <th scope="col">Nro Documento</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Fecha de ingreso</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>

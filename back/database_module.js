@@ -43,7 +43,33 @@ exports.buscarEstudianteXNombre = function(name, callback) {
 };
 
 exports.buscarEstudianteXDNI = function(dni, callback) {
-    let sqlQuery = 'SELECT * FROM alumno WHERE dni = ' + dni + ';';
+    let sqlQuery = "SELECT a.NRO_ALUM, a.TIP_DOC, a.NUM_DOC, a.NOMBRE FROM ALUMNOS a WHERE TIP_DOC = 'DNI' AND NUM_DOC = " + dni + ';';
+    db.serialize( () => {
+        db.all(sqlQuery,function(err,rows) {
+            if(err) {
+                callback(err);
+            } else {
+                callback(null, rows);
+            }
+        });
+    });
+};
+
+exports.buscarEstudianteXLC = function(lc, callback) {
+    let sqlQuery = "SELECT a.NRO_ALUM, a.TIP_DOC, a.NUM_DOC, a.NOMBRE FROM ALUMNOS a WHERE TIP_DOC = 'LC' AND NUM_DOC = '" + lc + "';";
+    db.serialize( () => {
+        db.all(sqlQuery,function(err,rows) {
+            if(err) {
+                callback(err);
+            } else {
+                callback(null, rows);
+            }
+        });
+    });
+};
+
+exports.buscarEstudianteXNumero = function(numero, callback) {
+    let sqlQuery = "SELECT a.NRO_ALUM, a.TIP_DOC, a.NUM_DOC, a.NOMBRE FROM ALUMNOS a WHERE NRO_ALUM = " + numero + ";";
     db.serialize( () => {
         db.all(sqlQuery,function(err,rows) {
             if(err) {
