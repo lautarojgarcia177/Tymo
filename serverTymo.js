@@ -65,7 +65,6 @@ app.post('/analitico', (req,res) => {
 });
 
 app.get('/analitico', (req,res) => {
-    console.log(req.query.alumnonro);
     try {
         db.datosAnaliticoAlumno(req.query.alumnonro, (err,rows) => {
             if (err) {
