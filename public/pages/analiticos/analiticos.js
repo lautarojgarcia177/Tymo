@@ -9,19 +9,19 @@ $(document).ready(function() {
            limpiar();
            $('#spinner-buscando').show();
            switch($('#select-buscar-alumno').val()) {
-               case 'Nombre':
+               case 'name':
                    var query = 'nombre=' + $('#input-buscar-alumno').val().toString();
                    buscarAlumnoPorNombre(query);
                    break;
-               case 'DNI':
+               case 'dni':
                    var query = 'dni=' + $('#input-buscar-alumno').val();
                    buscarAlumnoPorDNI(query);
                    break;
-               case 'LC':
+               case 'lc':
                    var query = 'lc=' + $('#input-buscar-alumno').val();
                    buscarAlumnoPorLC(query);
                    break; 
-               case 'Numero':
+               case 'legajo':
                    var query = 'numero=' + $('#input-buscar-alumno').val();
                    buscarAlumnoPorNumero(query); 
                    break;
@@ -39,6 +39,14 @@ $(document).ready(function() {
             $('#input-buscar-alumno').attr('type','text');
         }
    }); 
+
+   $('#input-buscar-alumno').on('keyup', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            $('#btn-buscar').trigger('click');
+        }
+    });
+
 });
 
 function buscarAlumnoPorNombre(nombre) {
