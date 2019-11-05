@@ -2,6 +2,8 @@ if (sessionStorage.getItem("logueado") !== "true") {
     window.location.href = 'index.html';
 }
 
+let alumnoSeleccionado;
+
 $(document).ready(function() {
 
    $('#btn-buscar').on('click', function() {
@@ -45,6 +47,10 @@ $(document).ready(function() {
             event.preventDefault();
             $('#btn-buscar').trigger('click');
         }
+    });
+
+    $('#btn-generar-pdf-analitico').on('click', function() {
+        mostrarAnaliticoAlumno(alumnoSeleccionado);
     });
 
 });
@@ -121,26 +127,24 @@ function buscarAlumnoPorNumero(numero) {
     });
 }
 
-// Muestra los resultados de una busqueda en una tabla para que se pueda seleccionar
-// cual es el alumno que se desea imprimir el analitico.
 function mostrarTabla(data) {
     if(data.length !== 0) {
         let newRow;
         let acu = 0;
         let btnSeleccionarAlumno = '<button id="btn-seleccionar-alumno-' + acu
-            +'" class="btn btn-outline-success my-2 my-sm-0 btn-seleccionar-alumno">Seleccionar</button>';
+            +'" class="btn btn-outline-success my-2 my-sm-0 btn-seleccionar-alumno"'
+            + ' data-toggle="modal" data-target="#exampleModal" ' + '>Seleccionar</button>';
         data.forEach(function(item) {
-            console.log(item);
             newRow = '<tr><td>' + item.NRO_ALUM + '</td><td>' + item.TIP_DOC + '</td><td>' +
                 item.NUM_DOC + '</td><td>' + item.NOMBRE + '</td><td>' + btnSeleccionarAlumno + '</td></tr>';
             $('table tbody').append(newRow);
             acu++;
             btnSeleccionarAlumno = '<button id="btn-seleccionar-alumno-' + acu
-                +'" class="btn btn-outline-success my-2 my-sm-0 btn-seleccionar-alumno">Seleccionar</button>';
+                +'" class="btn btn-outline-success my-2 my-sm-0 btn-seleccionar-alumno"'
+                + ' data-toggle="modal" data-target="#exampleModal" ' + '>Seleccionar</button>';
         });
         $('.btn-seleccionar-alumno').on('click', function() {
-            let numeroColumna =this.id.substring(23);
-            mostrarAnaliticoAlumno(data[numeroColumna]);
+            alumnoSeleccionado = data[this.id.substring(23)];
         });
         $('table').show();
     } else {
