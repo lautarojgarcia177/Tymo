@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const stream = require('stream');
 
-exports.generarPDFAnalitico = function(datos, res, callback) {
+exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
     try {
         // Get date for Footer
         var today = getTodaysDate();
@@ -29,6 +29,32 @@ exports.generarPDFAnalitico = function(datos, res, callback) {
         doc.addPage({
             margin: 30
         }).font('Helvetica-Bold');
+
+        //variable que tiene la altura a partir de la cual empieza el contenido de la página
+        doc.font('Helvetica');
+        let yStart = 310;
+        let xStart = 30;
+
+        // Observations
+        var obs = String(observaciones);
+        doc.moveDown()
+            .fontSize(10)
+            .text('OBSERVACIONES: ', xStart, yStart)
+            .text(obs, xStart + 20, yStart + 20);
+            
+
+        //Penultimo texto
+        var penultimateTxt = 'Se extiende el presente certificado a efectos de ser presentado ante las autoridades que correspondan.';
+        var cantRenglonesPenultimateTxt = Math.ceil(obs.length / 95);
+        var yposPenultimateText = yStart + 20 + 18 + (cantRenglonesPenultimateTxt * 12) ;
+        doc.text(penultimateTxt, xStart, yposPenultimateText);
+
+        //Ultimo texto
+        var mes = 11;
+        var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + mes.toLocaleString() +  ' de ';
+        doc.fontSize(12);
+        doc.text(lastTxt, xStart, yposPenultimateText + 15);
+        
 
         //doc.pipe(fs.createWriteStream('./back/reportes/output.pdf'));
         doc.pipe(res);

@@ -50,7 +50,8 @@ $(document).ready(function() {
     });
 
     $('#btn-generar-pdf-analitico').on('click', function() {
-        mostrarAnaliticoAlumno(alumnoSeleccionado);
+        var observaciones = $('textarea').val();
+        mostrarAnaliticoAlumno(alumnoSeleccionado, observaciones);
     });
 
 });
@@ -184,10 +185,10 @@ function mostrarAnaliticoAlumno(alumno) {
 } 
 */
 
-function mostrarAnaliticoAlumno(alumno) {
+function mostrarAnaliticoAlumno(alumno, observaciones) {
     $('table').hide();
     $('#spinner-buscando').show();
-    window.open('/analitico?alumnonro=' + alumno.NRO_ALUM,'_blank');
+    window.open('/analitico?alumnonro=' + alumno.NRO_ALUM + '&observaciones=' + observaciones,'_blank');
     $('table').show();
     $('#spinner-buscando').hide();
 }
