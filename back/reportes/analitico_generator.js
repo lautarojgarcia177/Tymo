@@ -5,6 +5,8 @@ const fs = require('fs');
 
 const stream = require('stream');
 
+const numberConverter = require('../conversor_numeros_a_letras');
+
 exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
     try {
         // Get date for Footer
@@ -50,18 +52,16 @@ exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
         doc.text(penultimateTxt, xStart, yposPenultimateText);
 
         //Ultimo texto
-        var mes = 11;
-        var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + mes.toLocaleString() +  ' de ';
+        var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + getTodaysDateEnTexto();
         doc.fontSize(12);
         doc.text(lastTxt, xStart, yposPenultimateText + 15);
         
 
         //doc.pipe(fs.createWriteStream('./back/reportes/output.pdf'));
         doc.pipe(res);
-
+        doc.end(); 
             
         let filename = 'analitico.pdf';
-        doc.end(); 
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
         res.setHeader('Content-type', 'application/pdf');
 
@@ -118,4 +118,21 @@ function getTodaysDate() {
 
     today = dd + '/' + mm + '/' + yyyy + ' ' + hh + ':' + min + ':' +ss;
     return today;
+}
+
+function getTodaysDateEnTexto() {
+    var today = new Date();
+
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    var Converter = numberConverter.conversorNumerosALetras;
+    let myConverter = new Converter();
+    
+    dd = myConverter.convertToText(String(dd));
+    yyyy = myConverter.convertToText(String(yyyy));
+    mm = myConverter.convertirNroMesAtexto(String(mm));
+
+    return `${dd} de ${mm} de ${yyyy}`;
 }
