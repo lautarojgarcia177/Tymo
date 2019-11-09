@@ -82,7 +82,8 @@ exports.buscarEstudianteXNumero = function(numero, callback) {
 };
 
 exports.datosAnaliticoAlumno = function(alumnonro, callback) {
-    let sqlQuery = 'SELECT * FROM ALUMNOS WHERE NRO_ALUM = ' + alumnonro + ';';
+    let sqlQuery = 'SELECT * FROM ALUMNOS a JOIN CARRERAS c ON a.CARRERA = c.NUMERO_CARRERA ' +
+     'WHERE a.NRO_ALUM = ' + alumnonro + ';';
     db.serialize( () => {
        db.all(sqlQuery, function(err,rows) {
          if(err) {

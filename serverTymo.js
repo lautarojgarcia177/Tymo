@@ -75,7 +75,8 @@ app.get('/analitico', (req,res) => {
                 res.statusCode = 500;
                 res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
             } else {
-                pdfanalitico.generarPDFAnalitico(rows, res, (err) => {
+                var alumno = rows[0];                
+                pdfanalitico.generarPDFAnalitico(alumno, res, (err) => {
                     if (err) {
                         res.statusCode = 500;
                         res.end('Hubo un error al generar el pdf: ' + err.message);
