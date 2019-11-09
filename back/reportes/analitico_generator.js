@@ -71,6 +71,9 @@ function generarParteDeArribaDeTodasLasHojas(doc, datos) {
 }
 
 function generarFooter(doc, today, pageNumber) {
+    doc.moveTo(30, 745)
+        .lineTo(582, 745)
+        .stroke();
     var footerText = today + '                                                                          '
      + '                                                                    Página ' + pageNumber;
     doc.fontSize(10).text(footerText, 30, 750);
