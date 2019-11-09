@@ -18,6 +18,10 @@ app.get('/index_template', (req,res) => {
     res.sendFile(path.join(__dirname,'./public/pages/index_template/index.html'));
 });
 
+app.get('/prueba', (req,res) => {
+    res.sendFile(path.join(__dirname,'/public/pages/prueba/prueba.html'));
+});
+
 app.post('/login', (req,res) => {
     db.login(req.body.password, function(err, claveCorrecta) {
         if (err) {
