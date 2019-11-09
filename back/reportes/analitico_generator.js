@@ -56,10 +56,59 @@ exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
         doc.fontSize(12);
         doc.text(lastTxt, xStart, yposPenultimateText + 15);
         
+        // -------------------------------------------------------------------------------------------------------------------------------------------
+        //Create actual PDF which will be send
 
-        //doc.pipe(fs.createWriteStream('./back/reportes/output.pdf'));
-        doc.pipe(res);
-        doc.end(); 
+        // Get date for Footer
+        var today2 = getTodaysDate();
+        var pageCount2 = 0;
+
+        // Create a document
+        var doc2 = new PDFDocument({
+            info: {
+                Title: 'Certificado analitico',
+                Subject: 'Certificado analitico',
+            },
+            autoFirstPage: false
+        });
+
+        doc2.on('pageAdded', () => {
+            pageCount2++;
+            generarParteDeArribaDeTodasLasHojas(doc2,datos);
+            generarFooter2(doc2, today, pageCount2, pageCount);
+        });
+
+        doc2.addPage({
+            margin: 30
+        }).font('Helvetica-Bold');
+
+        //variable que tiene la altura a partir de la cual empieza el contenido de la página
+        doc2.font('Helvetica');
+        let yStart2 = 310;
+        let xStart2 = 30;
+
+        // Observations
+        var obs = String(observaciones);
+        doc2.moveDown()
+            .fontSize(10)
+            .text('OBSERVACIONES: ', xStart2, yStart2)
+            .text(obs, xStart2 + 20, yStart2 + 20);
+            
+
+        //Penultimo texto
+        var penultimateTxt = 'Se extiende el presente certificado a efectos de ser presentado ante las autoridades que correspondan.';
+        var cantRenglonesPenultimateTxt = Math.ceil(obs.length / 95);
+        var yposPenultimateText = yStart2 + 20 + 18 + (cantRenglonesPenultimateTxt * 12) ;
+        doc2.text(penultimateTxt, xStart2, yposPenultimateText);
+
+        //Ultimo texto
+        var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + getTodaysDateEnTexto();
+        doc2.fontSize(12);
+        doc2.text(lastTxt, xStart2, yposPenultimateText + 15);
+
+        // HTTP RES
+        doc2.pipe(res);
+        doc2.end();
             
         let filename = 'analitico.pdf';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
@@ -102,6 +151,15 @@ function generarFooter(doc, today, pageNumber) {
         .stroke();
     var footerText = today + '                                                                          '
      + '                                                                    Página ' + pageNumber;
+    doc.fontSize(10).text(footerText, 30, 750);
+}
+
+function generarFooter2(doc,today, pageNumber, totalPagesNumber) {
+    doc.moveTo(30, 745)
+    .lineTo(582, 745)
+    .stroke();
+    var footerText = today + '                                                                          '
+    + '                                                                    Página ' + pageNumber + ' de ' + totalPagesNumber;
     doc.fontSize(10).text(footerText, 30, 750);
 }
 
