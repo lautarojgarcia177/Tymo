@@ -110,7 +110,7 @@ exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
         doc2.pipe(res);
         doc2.end();
             
-        let filename = 'analitico.pdf';
+        let filename = 'analitico ' + datos.NOMBRE +'.pdf';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
         res.setHeader('Content-type', 'application/pdf');
 
