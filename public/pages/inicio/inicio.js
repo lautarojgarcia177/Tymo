@@ -4,7 +4,11 @@ if (sessionStorage.getItem("logueado") !== "true") {
 }
 
 $(document).ready(function() {
-    $(".opcion").on('click', function() {
+    $("#analitico").on('click', function() {
         window.location.href="analiticos.html";
+    });
+
+    $("#observaciones").on('click', function() {
+        window.location.href="observaciones.html";
     });
 });
