@@ -7,8 +7,9 @@ const stream = require('stream');
 
 const numberConverter = require('../conversor_numeros_a_letras');
 
-exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
+exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
     try {
+        var datos = rows[0];
         // Get date for Footer
         var today = getTodaysDate();
         var pageCount = 0;
@@ -110,7 +111,7 @@ exports.generarPDFAnalitico = function(datos, observaciones, res, callback) {
         doc2.pipe(res);
         doc2.end();
             
-        let filename = 'analitico ' + datos.NOMBRE +'.pdf';
+        let filename = 'Analítico ' + datos.NOMBRE +'.pdf';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
         res.setHeader('Content-type', 'application/pdf');
 
@@ -128,20 +129,19 @@ function generarParteDeArribaDeTodasLasHojas(doc, datos) {
     doc.text('FACULTAD DE FILOSOFÍA Y HUMANIDADES', 30, 105, {align: 'left'});
 
     doc.fontSize(15);
-    doc.text('CERTIFICADO ANALÍTICO', 0, 150, {
+    doc.text('ANALÍTICO', 0, 150, {
         align: 'center',
         underline: 'true'
     }).fontSize(13);
-    doc.text(datos.NOMBRE_CARRERA + ' - PLAN 1993', 0, 170, {
-            align: 'center'
-        });
 
-    doc.text('Titulo: ' + datos.NUMERO_CARRERA + ' ' + datos.TITULO_CARRERA, 30, 195);
+    doc.text('Carrera: ' + sanitizarDato(datos.NOMBRE_CARRERA) + ' - PLAN ' + sanitizarNroPlan(datos.PLAN), 30, 185);    
+    doc.text('Título: ' + sanitizarDato(datos.NUMERO_CARRERA) + ' ' + sanitizarDatoTitulo(datos), 30, 205);
 
     doc.fontSize(12).font('Helvetica');
-    var texto = 'El que suscribe Facultad de Filosofía y Humanidades, certifica que en libros de actas del Departamento respectivo' +
-        ' consta que el alumno número ' + datos.NRO_ALUM + ' ' + datos.TIP_DOC + ' ' + datos.NUM_DOC + ', ' +
-        datos.NOMBRE + ' con fecha de ingreso a la carrera ' + '' + ', cuenta con la actuación académica que a continuación se indica.';
+    var texto = 'La Universidad Nacional de Córdoba - Facultad de Filosofía y Humanidades certifica que ' +
+        datos.NOMBRE + ', Legajo N° ' + datos.NRO_ALUM + ', ' + datos.TIP_DOC + ' ' + datos.NUM_DOC + 
+        ', quien ingresó el día <completar!!!!>' + ', registra la siguiente historia académica en la carrera' +
+        ' de ' + sanitizarDato(datos.NOMBRE_CARRERA) + ', dictada en Facultad de Filosofía y Humanidades';
     doc.text(texto, 30, 240, {align: 'justify'});
 }
 
@@ -193,4 +193,37 @@ function getTodaysDateEnTexto() {
     mm = myConverter.convertirNroMesAtexto(String(mm));
 
     return `${dd} de ${mm} de ${yyyy}`;
+}
+
+function sanitizarDato(dato) {
+    if(dato) {
+        return dato;
+    } else {
+        return '-';
+    }
+}
+
+function sanitizarNroPlan(nroPlan) {
+    if(nroPlan) {
+        nroPlanInt = parseInt(nroPlan);
+        if(nroPlanInt < 55) {
+            return nroPlanInt + 2000;
+        } else {
+            return nroPlanInt + 1900;
+        }
+    } else {
+        return '-';
+    }    
+}
+
+function sanitizarDatoTitulo(data) {
+    if(data.TITULO_CARRERA_MASCULINO) {
+        if(data.SEXO == 1) {
+            return data.TITULO_CARRERA_MASCULINO;
+        } else {
+            return data.TITULO_CARRERA_FEMENINO;
+        }
+    } else {
+        return '-';
+    }    
 }

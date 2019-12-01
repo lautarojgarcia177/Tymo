@@ -16,15 +16,15 @@
 
   .opcion p {
     padding: 7px;
-    text-align: justify;
+    text-align: center;
   }
   
   .opcion h4 {
     padding: 7px;
   }
 
-  .col-sm-4 :hover {
-    background-color: #0f3e1a;
+  .col-sm-6 :hover {
+    background-color: #18662a;
     color: white; 
     cursor: pointer; 
   }

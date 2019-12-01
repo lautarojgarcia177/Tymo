@@ -69,7 +69,7 @@ exports.buscarEstudianteXLC = function(lc, callback) {
 };
 
 exports.buscarEstudianteXNumero = function(numero, callback) {
-    let sqlQuery = "SELECT a.NRO_ALUM, a.TIP_DOC, a.NUM_DOC, a.NOMBRE FROM ALUMNOS a WHERE NRO_ALUM = " + numero + ";";
+    let sqlQuery = "SELECT a.NRO_ALUM, a.TIP_DOC, a.NUM_DOC, a.NOMBRE FROM ALUMNOS a WHERE NRO_ALUM LIKE '%" + numero + "';";
     db.serialize( () => {
         db.all(sqlQuery,function(err,rows) {
             if(err) {
@@ -81,7 +81,7 @@ exports.buscarEstudianteXNumero = function(numero, callback) {
     });
 };
 
-exports.datosAnaliticoAlumno = function(alumnonro, callback) {
+/* exports.datosAnaliticoAlumno = function(alumnonro, callback) {
     let sqlQuery = 'SELECT * FROM ALUMNOS a LEFT JOIN CARRERAS c ON a.CARRERA = c.NUMERO_CARRERA ' +
      'WHERE a.NRO_ALUM = ' + alumnonro + ';';
     db.serialize( () => {
@@ -93,4 +93,24 @@ exports.datosAnaliticoAlumno = function(alumnonro, callback) {
          }
        });
     });
-};
+}; */
+
+exports.datosAnaliticoAlumno = function(alumnonro, callback) {
+    let sqlQuery =  'SELECT * ' +  
+                    'FROM ALUMNOS a ' +
+                    'LEFT JOIN CARRERAS c ON a.CARRERA = c.NUMERO_CARRERA ' +
+                    'JOIN EXAMENES c ON SUBSTR(a.NRO_ALUM,3,7) = c.ALUMNO ' +
+                    'WHERE a.NRO_ALUM = ' + alumnonro + ';'
+                    ;
+    db.serialize( () => {
+       db.all(sqlQuery, function(err,rows) {
+         if(err) {
+             callback(err);
+         }  else {
+             callback(null,rows);
+         }
+       });
+    });
+}; 
+
+

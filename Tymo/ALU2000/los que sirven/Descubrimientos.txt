@@ -1,0 +1,12 @@
+-tablas.DBF: Esta el listado de materias con su nombre. En la columna REST_CLAVE, hay un numero del cual los primeros 3 es
+el numero de la carrera, luego los ultimos 3 numeros es el numero de la materia. Hay 2 numeros en el medio que no se
+que son.
+40178001. 401 es numero de la carrera, 78 el plan y 001 el codigo de la materia
+
+-PARAUXx.dbf: tiene la correspondencia entre el DNI del alumno y la columna ALUMNO,C,7 que sale en algunos dbfs, la alumna 
+RIVERA, MARIA CONSTANZA tiene número 200575447, lo que en la columna ALUMNO,C,7 sale como 0575447 es decir los ultimos
+7 digitos del numero. Que significan los primeros dos numeros? rta: los primeros cuatro numeros son el año de ingreso.
+
+-MATERIA.dbf: Tiene el numero de alumno con su carrera, plan, numero de la materia y si la aprobo o la reprobo
+
+-EXAMEN.dbf: El acta sale la ultima parte del numero, la primera parte de donde sale?

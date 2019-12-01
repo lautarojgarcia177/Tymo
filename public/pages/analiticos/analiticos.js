@@ -28,8 +28,7 @@ $(document).ready(function() {
                    buscarAlumnoPorNumero(query); 
                    break;
            }
-       } else {
-           $('#alert-clave-incorrecta').show();
+           $('#input-buscar-alumno').val('');
        }
    });
 
@@ -157,33 +156,7 @@ function mostrarTabla(data) {
 function limpiar() {
     $('table tbody').empty();
     $('#no-hay-alumnos').hide();
-    $('#alert-clave-incorrecta').hide();
 }
-/*
-function mostrarAnaliticoAlumno(alumno) {
-    $('table').hide();
-    $('#spinner-buscando').show();
-    let alumnonroquery = 'alumnonro=' + alumno.NRO_ALUM;
-    fetch('/analitico', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        body: alumnonroquery
-    }).then( result => {
-        result.blob()
-            .then( pdfblob => {
-                var blobURL = window.URL.createObjectURL(pdfblob);
-                $('#object-pdf-analitico').attr({'data': blobURL});
-            });
-        $('#spinner-buscando').hide();
-        $('table').hide();
-    })
-    .catch(err => {
-        console.log('Hubo un error al obtener el analítico', err);
-    });
-} 
-*/
 
 function mostrarAnaliticoAlumno(alumno, observaciones) {
     $('table').hide();

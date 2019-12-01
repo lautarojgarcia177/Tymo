@@ -1,7 +1,3 @@
-http://localhost:8080/analiticos.html
-When refreshing the page, the search doesn't work, but if you go back and enter again, it works.
-
-------------------------------
-En el certificado analítico, el año del plan es para todos 1993?
----------------------------------
 De donde saco la fecha de ingreso a la carrera?
+
+

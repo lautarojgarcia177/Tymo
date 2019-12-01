@@ -39,6 +39,14 @@ app.post('/login', (req,res) => {
     });
 });
 
+app.get('/acerca-de.html', (req,res) => {
+    res.sendFile(path.join(__dirname, './public/pages/acerca-de/acerca-de.html'));
+});
+
+app.get('/contacto.html', (req,res) => {
+    res.sendFile(path.join(__dirname, './public/pages/contacto/contacto.html'));
+});
+
 app.get('/inicio.html', (req,res) => {
     res.sendFile(path.join(__dirname,'./public/pages/inicio/inicio.html'));
 });
@@ -54,6 +62,7 @@ app.post('/analitico', (req,res) => {
                 res.statusCode = 500;
                 res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
             } else {
+                
                 pdfanalitico.generarPDFAnalitico(rows, res, (err) => {
                     if (err) {
                         res.statusCode = 500;
@@ -74,9 +83,8 @@ app.get('/analitico', (req,res) => {
             if (err) {
                 res.statusCode = 500;
                 res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
-            } else {
-                var alumno = rows[0];              
-                pdfanalitico.generarPDFAnalitico(alumno, req.query.observaciones, res, (err) => {
+            } else {            
+                pdfanalitico.generarPDFAnalitico(rows, req.query.observaciones, res, (err) => {
                     if (err) {
                         res.statusCode = 500;
                         res.end('Hubo un error al generar el pdf: ' + err.message);
