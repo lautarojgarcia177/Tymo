@@ -15,5 +15,9 @@ registro 1050 - 45878
 registro 1079 - 45886
 registro 1103 - 43178
 registro 1201 - 46186
+registro 1296 - 46878
+registro 1331 - 46886
+registro 1355 - 48178
+registro 1382 - 48186
 
 Pedir que envien alguien que tenga observaciones
