@@ -9,34 +9,110 @@ const numberConverter = require('../conversor_numeros_a_letras');
 
 exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
     try {
-        let datos = rows[0];
+        var datos = rows[0];
+        // Get date for Footer
+        var today = getTodaysDate();
+        var pageCount = 0;
+
         // Create a document
         var doc = new PDFDocument({
             info: {
                 Title: 'Certificado analitico',
                 Subject: 'Certificado analitico',
             },
-            autoFirstPage: false,
-            bufferPages: true,
-            size: [595.28, 841.89],
-            margins: {
-                top: 40,
-                bottom: 40,
-                left: 35,
-                right: 35
-            }
+            autoFirstPage: false
         });
+
         doc.on('pageAdded', () => {
+            pageCount++;
             generarParteDeArribaDeTodasLasHojas(doc,datos);
+            generarFooter(doc, today, pageCount);
         });
-        doc.addPage();
+
+        doc.addPage({
+            margin: 30
+        }).font('Helvetica-Bold');
+
+        //variable que tiene la altura a partir de la cual empieza el contenido de la página
+        doc.font('Helvetica');
+        let yStart = 310;
+        let xStart = 30;
+
+        // Observations
+        var obs = String(observaciones);
+        doc.moveDown()
+            .fontSize(10)
+            .text('OBSERVACIONES: ', xStart, yStart)
+            .text(obs, xStart + 20, yStart + 20);
+            
+
+        //Penultimo texto
+        var penultimateTxt = 'Se extiende el presente certificado a efectos de ser presentado ante las autoridades que correspondan.';
+        var cantRenglonesPenultimateTxt = Math.ceil(obs.length / 95);
+        var yposPenultimateText = yStart + 20 + 18 + (cantRenglonesPenultimateTxt * 12) ;
+        doc.text(penultimateTxt, xStart, yposPenultimateText);
+
+        //Ultimo texto
+        var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + getTodaysDateEnTexto();
+        doc.fontSize(12);
+        doc.text(lastTxt, xStart, yposPenultimateText + 15);
+        
+        // -------------------------------------------------------------------------------------------------------------------------------------------
+        //Create actual PDF which will be send
+
+        // Get date for Footer
+        var today2 = getTodaysDate();
+        var pageCount2 = 0;
+
+        // Create a document
+        var doc2 = new PDFDocument({
+            info: {
+                Title: 'Certificado analitico',
+                Subject: 'Certificado analitico',
+            },
+            autoFirstPage: false
+        });
+
+        doc2.on('pageAdded', () => {
+            pageCount2++;
+            generarParteDeArribaDeTodasLasHojas(doc2,datos);
+            generarFooter2(doc2, today, pageCount2, pageCount);
+        });
+
+        doc2.addPage({
+            margin: 30
+        }).font('Helvetica-Bold');
+
+        //variable que tiene la altura a partir de la cual empieza el contenido de la página
+        doc2.font('Helvetica');
+        let yStart2 = 295;
+        let xStart2 = 30;
 
         //tabla con examenes
-        generarTablaExamenes(rows, 35, 250, doc);
+        generarTablaExamenes(rows, xStart2, yStart2, doc2);
+
+/*         // Observations
+        var obs = String(observaciones);
+        doc2.moveDown()
+            .fontSize(10)
+            .text('OBSERVACIONES: ', xStart2, yStart2)
+            .text(obs, xStart2 + 20, yStart2 + 20);
+            
+
+        //Penultimo texto
+        var penultimateTxt = 'Se extiende el presente certificado a efectos de ser presentado ante las autoridades que correspondan.';
+        var cantRenglonesPenultimateTxt = Math.ceil(obs.length / 95);
+        var yposPenultimateText = yStart2 + 20 + 18 + (cantRenglonesPenultimateTxt * 12) ;
+        doc2.text(penultimateTxt, xStart2, yposPenultimateText);
+
+        //Ultimo texto
+        var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + getTodaysDateEnTexto();
+        doc2.fontSize(12);
+        doc2.text(lastTxt, xStart2, yposPenultimateText + 15); */
 
         // HTTP RES
-        doc.pipe(res);
-        doc.end();
+        doc2.pipe(res);
+        doc2.end();
             
         let filename = 'Analítico ' + datos.NOMBRE +'.pdf';
         res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
@@ -49,29 +125,27 @@ exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
 };
 
 function generarParteDeArribaDeTodasLasHojas(doc, datos) {
-    doc.image('back/reportes/assets/logo-unc.jpg', 35, 40, {
-        width: 80
+    doc.image('back/reportes/assets/logo-unc.jpg', 30, 30, {
+        width: 100
     });
-    doc.font('Helvetica-Bold').fontSize(10);
-    doc.text('UNIVERSIDAD NACIONAL DE CÓRDOBA', 35, 90,{align: 'left'});
-    doc.text('FACULTAD DE FILOSOFÍA Y HUMANIDADES', 35, 105, {align: 'left'});
+    doc.text('UNIVERSIDAD NACIONAL DE CÓRDOBA', 30, 90,{align: 'left'});
+    doc.text('FACULTAD DE FILOSOFÍA Y HUMANIDADES', 30, 105, {align: 'left'});
 
-    doc.fontSize(14);
-    doc.text('ANALÍTICO', 35, 125, {
+    doc.fontSize(15);
+    doc.text('ANALÍTICO', 0, 150, {
         align: 'center',
         underline: 'true'
-    });
+    }).fontSize(13);
 
-    doc.fontSize(11);
-    doc.text('Carrera: ' + sanitizarDato(datos.NOMBRE_CARRERA) + ' - PLAN ' + sanitizarNroPlan(datos.PLAN), 35, 155);    
-    doc.text('Título: ' + sanitizarDato(datos.NUMERO_CARRERA) + ' ' + sanitizarDatoTitulo(datos), 35, 175);
+    doc.text('Carrera: ' + sanitizarDato(datos.NOMBRE_CARRERA) + ' - PLAN ' + sanitizarNroPlan(datos.PLAN), 30, 185);    
+    doc.text('Título: ' + sanitizarDato(datos.NUMERO_CARRERA) + ' ' + sanitizarDatoTitulo(datos), 30, 205);
 
-    doc.fontSize(10).font('Helvetica');
+    doc.fontSize(12).font('Helvetica');
     var texto = 'La Universidad Nacional de Córdoba - Facultad de Filosofía y Humanidades certifica que ' +
         datos.NOMBRE + ', Legajo N° ' + datos.NRO_ALUM + ', ' + datos.TIP_DOC + ' ' + datos.NUM_DOC + 
         ', quien ingresó el día <completar!!!!>' + ', registra la siguiente historia académica en la carrera' +
         ' de ' + sanitizarDato(datos.NOMBRE_CARRERA) + ', dictada en Facultad de Filosofía y Humanidades.';
-    doc.text(texto, 35, 210, {align: 'justify'});
+    doc.text(texto, 30, 240, {align: 'justify'});
 }
 
 function generarFooter(doc, today, pageNumber) {
@@ -160,7 +234,7 @@ function sanitizarDatoTitulo(data) {
 function generarTablaExamenes(data, x, y, documento) {
     //Linea de arriba
     documento.moveTo(x, y)
-            .lineTo(560.28, y)
+            .lineTo(582, y)
             .stroke();
     //Nombres de las columnas            
     y+=7;
@@ -175,18 +249,20 @@ function generarTablaExamenes(data, x, y, documento) {
             .text('Cred', x + 420, y);
     //Linea de abajo primera fila
     y+=15;
-    let y2 = y;  
-    //Lineas de tabla de la tabla
-    for(i = 0; i<= data.length; i++) {   
-        documento.moveTo(x, y2)
-        .lineTo(560.28,y2)
-        .stroke(); 
-        y2+=15;
-    }  
+    let y2 = y;    
+    documento.moveTo(x, y)
+            .lineTo(582,y)
+            .stroke();
     //Llenar la info de la tabla
     data.forEach( (row) => {
         y+=15;
         documento.text(row.MATERIA, x + 20, y);
     });
-
+    //Lineas de tabla de la tabla
+    for(i = 0; i<= data.length; i++) {    
+        y2+=15;
+        documento.moveTo(x, y2)
+            .lineTo(582,y2)
+            .stroke();
+    }
 }
