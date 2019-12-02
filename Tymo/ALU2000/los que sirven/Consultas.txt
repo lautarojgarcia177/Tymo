@@ -6,6 +6,14 @@ registro 321 - 41186080
 registro 372 - 41886029
 registro 432 - 42186
 registro 534 - 42886
-
+registro 561 - 44178
+registro 657 - 44186
+registro 799 - 44193
+registro 904 - 44886
+registro 974 - 45186
+registro 1050 - 45878
+registro 1079 - 45886
+registro 1103 - 43178
+registro 1201 - 46186
 
 Pedir que envien alguien que tenga observaciones
