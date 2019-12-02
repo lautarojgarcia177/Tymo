@@ -96,18 +96,34 @@ exports.buscarEstudianteXNumero = function(numero, callback) {
 }; */
 
 exports.datosAnaliticoAlumno = function(alumnonro, callback) {
-    let sqlQuery =  'SELECT * ' +  
+    let sqlQuery1 =  'SELECT * ' +  
                     'FROM ALUMNOS a ' +
                     'LEFT JOIN CARRERAS c ON a.CARRERA = c.NUMERO_CARRERA ' +
-                    'JOIN EXAMENES c ON SUBSTR(a.NRO_ALUM,3,7) = c.ALUMNO ' +
+                    "JOIN EXAMENES e ON substr(a.nro_alum,3,7) LIKE ('%' + e.ALUMNO) " +
                     'WHERE a.NRO_ALUM = ' + alumnonro + ';'
                     ;
     db.serialize( () => {
-       db.all(sqlQuery, function(err,rows) {
+       db.all(sqlQuery1, function(err,rows) {
          if(err) {
              callback(err);
          }  else {
-             callback(null,rows);
+             if(rows.length !== 0) {
+                callback(null,rows);
+             } else {
+                let sqlQuery2 =  'SELECT * ' +  
+                'FROM ALUMNOS a ' +
+                'LEFT JOIN CARRERAS c ON a.CARRERA = c.NUMERO_CARRERA ' +
+                "JOIN EXAMENES e ON substr(a.nro_alum,4,6) LIKE ('%' + e.ALUMNO) " +
+                'WHERE a.NRO_ALUM = ' + alumnonro + ';'
+                ;
+                db.all(sqlQuery2, (err,rows) => {
+                    if(err) {
+                        callback(err);
+                    } else {
+                        callback(null,rows);
+                    }
+                });
+             }             
          }
        });
     });
