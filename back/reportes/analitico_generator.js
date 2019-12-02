@@ -85,10 +85,13 @@ exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
 
         //variable que tiene la altura a partir de la cual empieza el contenido de la página
         doc2.font('Helvetica');
-        let yStart2 = 310;
+        let yStart2 = 295;
         let xStart2 = 30;
 
-        // Observations
+        //tabla con examenes
+        generarTablaExamenes(rows, xStart2, yStart2, doc2);
+
+/*         // Observations
         var obs = String(observaciones);
         doc2.moveDown()
             .fontSize(10)
@@ -105,7 +108,7 @@ exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
         //Ultimo texto
         var lastTxt = 'CÓRDOBA, Rep. Argentina, ' + getTodaysDateEnTexto();
         doc2.fontSize(12);
-        doc2.text(lastTxt, xStart2, yposPenultimateText + 15);
+        doc2.text(lastTxt, xStart2, yposPenultimateText + 15); */
 
         // HTTP RES
         doc2.pipe(res);
@@ -141,7 +144,7 @@ function generarParteDeArribaDeTodasLasHojas(doc, datos) {
     var texto = 'La Universidad Nacional de Córdoba - Facultad de Filosofía y Humanidades certifica que ' +
         datos.NOMBRE + ', Legajo N° ' + datos.NRO_ALUM + ', ' + datos.TIP_DOC + ' ' + datos.NUM_DOC + 
         ', quien ingresó el día <completar!!!!>' + ', registra la siguiente historia académica en la carrera' +
-        ' de ' + sanitizarDato(datos.NOMBRE_CARRERA) + ', dictada en Facultad de Filosofía y Humanidades';
+        ' de ' + sanitizarDato(datos.NOMBRE_CARRERA) + ', dictada en Facultad de Filosofía y Humanidades.';
     doc.text(texto, 30, 240, {align: 'justify'});
 }
 
@@ -226,4 +229,40 @@ function sanitizarDatoTitulo(data) {
     } else {
         return '-';
     }    
+}
+
+function generarTablaExamenes(data, x, y, documento) {
+    //Linea de arriba
+    documento.moveTo(x, y)
+            .lineTo(582, y)
+            .stroke();
+    //Nombres de las columnas            
+    y+=7;
+    documento.font('Helvetica-Bold')
+            .text('ASIGNATURA', x + 70, y)
+            .text('FECHA', x + 140, y)
+            .text('NOTA', x + 200, y)
+            .text('Tipo', x + 240, y)
+            .text('Libro', x + 300, y)
+            .text('Acta', x + 340, y)
+            .text('Pg', x + 380, y)
+            .text('Cred', x + 420, y);
+    //Linea de abajo primera fila
+    y+=15;
+    let y2 = y;    
+    documento.moveTo(x, y)
+            .lineTo(582,y)
+            .stroke();
+    //Llenar la info de la tabla
+    data.forEach( (row) => {
+        y+=15;
+        documento.text(row.MATERIA, x + 20, y);
+    });
+    //Lineas de tabla de la tabla
+    for(i = 0; i<= data.length; i++) {    
+        y2+=15;
+        documento.moveTo(x, y2)
+            .lineTo(582,y2)
+            .stroke();
+    }
 }
