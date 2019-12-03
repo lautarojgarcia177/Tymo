@@ -31,7 +31,7 @@ exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
         });
         doc.addPage();
 
-        //tabla con examenes
+        //tabla con examenes y totales
         generarTablaExamenes(rows, 35, 250, doc);
 
         // HTTP RES
@@ -158,6 +158,10 @@ function sanitizarDatoTitulo(data) {
 }
 
 function generarTablaExamenes(data, x, y, documento) {
+    let cantAprobadas = 0;
+    let acuAprobadas = 0;
+    let cantReprobadas = 0;
+    let acuReprobadas = 0;
     //Linea de arriba
     documento.moveTo(x, y)
             .lineTo(560.28, y)
@@ -177,6 +181,7 @@ function generarTablaExamenes(data, x, y, documento) {
     y+=15;
     let y2 = y;  
     //Lineas de tabla de la tabla
+    documento.font('Helvetica');
     for(i = 0; i<= data.length; i++) {   
         documento.moveTo(x, y2)
         .lineTo(560.28,y2)
@@ -184,9 +189,35 @@ function generarTablaExamenes(data, x, y, documento) {
         y2+=15;
     }  
     //Llenar la info de la tabla
+    y+=4;
     data.forEach( (row) => {
-        y+=15;
         documento.text(row.MATERIA, x + 20, y);
+        if(row.NOTA >= 4) {
+            cantAprobadas++;
+            acuAprobadas+=parseInt(row.NOTA);
+        } else {
+            cantReprobadas++;
+            acuReprobadas+=parseInt(row.NOTA);
+        }
+        y+=15;
     });
-
+    //Totales
+    y+=12;
+    documento.moveTo(x, y)
+        .lineTo(560.28,y)
+        .stroke();
+    y+=10;
+    documento.text('Total de materias aprobadas: ' + cantAprobadas, x, y);
+    x+=262.64;
+    let promedioConAplazos = ((acuAprobadas + acuReprobadas) / (cantAprobadas + cantReprobadas)).toFixed(2);
+    documento.text('Promedio con aplazos: ' + promedioConAplazos, x, y);
+    x=35;
+    y+=15;
+    documento.text('Cantidad de aplazos: ' + cantReprobadas, x, y);
+    x+=262.64;
+    documento.text('Promedio sin aplazos: ' + (acuAprobadas/cantAprobadas).toFixed(2), x, y);
+    x=35;
+    y+=15;
+    documento.text('Total de créditos: ', x, y);
+    
 }
