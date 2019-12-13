@@ -82,9 +82,8 @@ exports.buscarEstudianteXNumero = function(numero, callback) {
 };
 
 exports.obtenerNombreMateria = function(codMateria, callback) {
-    console.log('codigo de la materia: ', codMateria);
-    let sqlQuery = 'SELECT MEMO_FIJO' +
-                    'FROM MATERIAS m ' +
+    let sqlQuery = 'SELECT MEMO_FIJO ' +
+                    'FROM MATERIAS ' +
                     "WHERE REST_CLAVE = '" + codMateria + "'";
     db.serialize( () => {
         db.all(sqlQuery, function(err, rows) {

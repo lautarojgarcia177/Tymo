@@ -203,14 +203,14 @@ function generarTablaExamenes(data, x, y, documento, db) {
             default:
                 break;
         }
-        console.log(nroMateria);
         let codigoMateria = row.NUMERO_CARRERA + row.PLAN + nroMateria;
-        db.obtenerNombreMateria(codigoMateria, (err, nombreMateria) => {
+        db.obtenerNombreMateria(codigoMateria, (err, nombreMateria) => { 
             if(err) {
                 console.log('Hubo un error: ', err);
             } else {
-                console.log(nombreMateria);
-                documento.text(nombreMateria, x + 20, y);
+                console.log('been here');
+                let materiaName = nombreMateria[0].MEMO_FIJO;
+                documento.text('holis', x + 20, y);
             }
         });        
         if(row.NOTA >= 4) {
