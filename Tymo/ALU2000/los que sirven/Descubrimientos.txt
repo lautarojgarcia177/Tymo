@@ -1,6 +1,4 @@
--tablas.DBF: Esta el listado de materias con su nombre. En la columna REST_CLAVE, hay un numero del cual los primeros 3 es
-el numero de la carrera, luego los ultimos 3 numeros es el numero de la materia. Hay 2 numeros en el medio que no se
-que son.
+-tablas.DBF: Esta el listado de materias con su nombre. ej:
 40178001. 401 es numero de la carrera, 78 el plan y 001 el codigo de la materia
 
 -PARAUXx.dbf: tiene la correspondencia entre el DNI del alumno y la columna ALUMNO,C,7 que sale en algunos dbfs, la alumna 

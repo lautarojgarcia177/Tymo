@@ -7,7 +7,7 @@ const stream = require('stream');
 
 const numberConverter = require('../conversor_numeros_a_letras');
 
-exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
+exports.generarPDFAnalitico = function(rows, db, observaciones, res, callback) {
     try {
         let datos = rows[0];
         // Create a document
@@ -32,7 +32,7 @@ exports.generarPDFAnalitico = function(rows, observaciones, res, callback) {
         doc.addPage();
 
         //tabla con examenes y totales
-        generarTablaExamenes(rows, 35, 250, doc);
+        generarTablaExamenes(rows, 35, 250, doc, db);
 
         // HTTP RES
         doc.pipe(res);
@@ -157,7 +157,7 @@ function sanitizarDatoTitulo(data) {
     }    
 }
 
-function generarTablaExamenes(data, x, y, documento) {
+function generarTablaExamenes(data, x, y, documento, db) {
     let cantAprobadas = 0;
     let acuAprobadas = 0;
     let cantReprobadas = 0;
@@ -191,7 +191,28 @@ function generarTablaExamenes(data, x, y, documento) {
     //Llenar la info de la tabla
     y+=4;
     data.forEach( (row) => {
-        documento.text(row.MATERIA, x + 20, y);
+        // Obtener nombre de la materia a partir de su numero
+        let nroMateria = String(row.MATERIA);
+        switch(nroMateria.length) {
+            case 1:
+                nroMateria = '00' + nroMateria;
+                break;
+            case 2:
+                nroMateria = '0' + nroMateria;
+                break;
+            default:
+                break;
+        }
+        console.log(nroMateria);
+        let codigoMateria = row.NUMERO_CARRERA + row.PLAN + nroMateria;
+        db.obtenerNombreMateria(codigoMateria, (err, nombreMateria) => {
+            if(err) {
+                console.log('Hubo un error: ', err);
+            } else {
+                console.log(nombreMateria);
+                documento.text(nombreMateria, x + 20, y);
+            }
+        });        
         if(row.NOTA >= 4) {
             cantAprobadas++;
             acuAprobadas+=parseInt(row.NOTA);

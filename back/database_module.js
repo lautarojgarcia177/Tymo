@@ -81,19 +81,21 @@ exports.buscarEstudianteXNumero = function(numero, callback) {
     });
 };
 
-/* exports.datosAnaliticoAlumno = function(alumnonro, callback) {
-    let sqlQuery = 'SELECT * FROM ALUMNOS a LEFT JOIN CARRERAS c ON a.CARRERA = c.NUMERO_CARRERA ' +
-     'WHERE a.NRO_ALUM = ' + alumnonro + ';';
+exports.obtenerNombreMateria = function(codMateria, callback) {
+    console.log('codigo de la materia: ', codMateria);
+    let sqlQuery = 'SELECT MEMO_FIJO' +
+                    'FROM MATERIAS m ' +
+                    "WHERE REST_CLAVE = '" + codMateria + "'";
     db.serialize( () => {
-       db.all(sqlQuery, function(err,rows) {
-         if(err) {
-             callback(err);
-         }  else {
-             callback(null,rows);
-         }
-       });
-    });
-}; */
+        db.all(sqlQuery, function(err, rows) {
+            if(err) {
+                callback(err);
+            } else {
+                callback(null, rows);
+            }
+        })
+    })
+}
 
 exports.datosAnaliticoAlumno = function(alumnonro, callback) {
     let sqlQuery1 =  'SELECT * ' +  

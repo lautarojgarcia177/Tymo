@@ -55,7 +55,7 @@ app.get('/analiticos.html', (req,res) => {
     res.sendFile(path.join(__dirname,'./public/pages/analiticos/analiticos.html'));
 });
 
-app.post('/analitico', (req,res) => {
+/* app.post('/analitico', (req,res) => {
     try {
         db.datosAnaliticoAlumno(req.body.alumnonro, (err,rows) => {
             if (err) {
@@ -63,7 +63,7 @@ app.post('/analitico', (req,res) => {
                 res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
             } else {
                 
-                pdfanalitico.generarPDFAnalitico(rows, res, (err) => {
+                pdfanalitico.generarPDFAnalitico(rows, db, res, (err) => {
                     if (err) {
                         res.statusCode = 500;
                         res.end('Hubo un error al generar el pdf: ' + err.message);
@@ -75,7 +75,7 @@ app.post('/analitico', (req,res) => {
         res.statusCode = 500;
         res.end('Hubo un error al generar el analitico: '+ err.message);
     }
-});
+}); */
 
 app.get('/analitico', (req,res) => {
     try {
@@ -84,7 +84,7 @@ app.get('/analitico', (req,res) => {
                 res.statusCode = 500;
                 res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
             } else {            
-                pdfanalitico.generarPDFAnalitico(rows, req.query.observaciones, res, (err) => {
+                pdfanalitico.generarPDFAnalitico(rows, db, req.query.observaciones, res, (err) => {
                     if (err) {
                         res.statusCode = 500;
                         res.end('Hubo un error al generar el pdf: ' + err.message);
