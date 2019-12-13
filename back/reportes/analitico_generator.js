@@ -193,6 +193,7 @@ function generarTablaExamenes(data, x, y, documento, db) {
     data.forEach( (row) => {
         // Obtener nombre de la materia a partir de su numero
         let nroMateria = String(row.MATERIA);
+        let materiaName;
         switch(nroMateria.length) {
             case 1:
                 nroMateria = '00' + nroMateria;
@@ -208,12 +209,18 @@ function generarTablaExamenes(data, x, y, documento, db) {
             if(err) {
                 console.log('Hubo un error: ', err);
             } else {
-                console.log('been here');
-                let materiaName = nombreMateria[0].MEMO_FIJO;
-                documento.text('holis', x + 20, y);
+                try {
+                    materiaName = nombreMateria[0][Object.keys(nombreMateria[0])[0]];
+                    console.log(materiaName);
+                    //documento.text(materiaName, x + 20, y);
+                } catch (error) {
+                    console.log(error);
+                }                                               
             }
-        });        
-        if(row.NOTA >= 4) {
+        });     
+        
+        documento.text(materiaName, x + 20, y);
+        if(row.NOTA >= 4) { 
             cantAprobadas++;
             acuAprobadas+=parseInt(row.NOTA);
         } else {
