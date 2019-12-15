@@ -157,6 +157,55 @@ function sanitizarDatoTitulo(data) {
     }    
 }
 
+function generarTablaExamenes(data, nombresDeMateriasArr, x, y, documento) {
+    //Linea de arriba
+    documento.moveTo(x, y)
+        .lineTo(560.28, y)
+        .stroke();
+    //Nombres de las columnas            
+    y+=7;
+    documento.font('Helvetica-Bold')
+            .text('ASIGNATURA', x + 70, y)
+            .text('FECHA', x + 140, y)
+            .text('NOTA', x + 200, y)
+            .text('Tipo', x + 240, y)
+            .text('Libro', x + 300, y)
+            .text('Acta', x + 340, y)
+            .text('Pg', x + 380, y)
+            .text('Cred', x + 420, y);
+    //Linea de abajo primera fila
+    y+=15;
+    //Lineas de tabla de la tabla
+    let y2 = y; 
+    documento.font('Helvetica');
+    for(i = 0; i<= nombresDeMateriasArr.length; i++) {   
+        documento.moveTo(x, y2)
+        .lineTo(560.28,y2)
+        .stroke(); 
+        y2+=15;
+    }  
+    //Llenar la info de la tabla
+    y+=4;
+    nombresDeMateriasArr.forEach((materia) => {
+        //asignatura
+        documento.text(materia.materia, x+5, y);
+        //fecha
+        documento.text(formatearFecha(materia.row.FECHA), x+200, y);
+        //nota
+        documento.text(materia.row.NOTA, x +250, y);
+        //tipo
+        // TODO, esperar respuesta de Ille
+        //libro
+        documento.text(sanitizarDatoLibro(materia.row.LIBRO), x+300, y);
+        //acta
+        documento.text(sanitizarDatoLibro(materia.row.LIBRO) + materia.row.ACTA, x+350, y);
+        //pg
+
+        //documento.text(materia.row.PAGINA, x+400, 7);
+        y+=15;        
+    });
+}
+/* 
 function generarTablaExamenes(data, nombresDeMateriasArr,x, y, documento) {
     let cantAprobadas = 0;
     let acuAprobadas = 0;
@@ -222,4 +271,35 @@ function generarTablaExamenes(data, nombresDeMateriasArr,x, y, documento) {
     y+=15;
     documento.text('Total de créditos: ', x, y);
     
+} */
+
+function sanitizarDatoLibro(libro) {
+    switch(libro.length) {
+        case 1:
+            return '0000' + libro;
+            break;
+        case 2:
+            return '000' + libro;
+            break;
+        case 3:
+            return '00' + libro;
+            break;
+        case 4:
+            return '0' + libro;
+            break;
+        case 5:
+            return libro;
+            break;
+        default:
+            return '-';
+            break;
+    }
+}
+
+function formatearFecha(_fecha) {
+    fecha = String(_fecha)
+    let year = fecha.substring(0,4);
+    let mm = fecha.substring(4,6);
+    let dd = fecha.substring(6,8);
+    return `${dd}/${mm}/${year}`;
 }

@@ -13,16 +13,16 @@ exports.obtenerCodigoDeMateria = function(row, callback) {
             break;
     }
     let codigoMateria = row.NUMERO_CARRERA + row.PLAN + nroMateria;
-    callback(codigoMateria);
+    callback(codigoMateria, row);
 }
 
 exports.generarArrayConNombresDeMaterias = function(rows, db, callback) {
     let arrayConNombresDeMaterias = [];
     rows.forEach((row) => {
-        this.obtenerCodigoDeMateria(row, (codigoMateria) => {
+        this.obtenerCodigoDeMateria(row, (codigoMateria, row) => {
             try {
                 db.obtenerNombreMateria(codigoMateria, (err, nombreMateria) => {
-                    cargarArrayConNombreDeMateria(nombreMateria, arrayConNombresDeMaterias, (err, arrayResultado) => {
+                    cargarArrayConNombreDeMateria(nombreMateria, arrayConNombresDeMaterias, row, (err) => {
                         if(rows.indexOf(row) === rows.length - 1) {
                             callback(arrayConNombresDeMaterias);
                         }
@@ -35,10 +35,13 @@ exports.generarArrayConNombresDeMaterias = function(rows, db, callback) {
     });
 }
 
-function cargarArrayConNombreDeMateria(obj, array, callback) {
+function cargarArrayConNombreDeMateria(obj, array, row, callback) {
     try {
-        array.push(obj[0][Object.keys(obj[0])[0]]);
-        callback(null, array);
+        array.push({
+            'materia': obj[0][Object.keys(obj[0])[0]],
+            row
+        });
+        callback(null);
     } catch(err) {
         callback(err);
     }    
