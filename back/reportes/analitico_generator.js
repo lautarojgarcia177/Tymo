@@ -7,7 +7,7 @@ const stream = require('stream');
 
 const numberConverter = require('../conversor_numeros_a_letras');
 
-exports.generarPDFAnalitico = function(rows, db, observaciones, res, callback) {
+exports.generarPDFAnalitico = function(rows, db, observaciones, res, arrayConNombresDeMaterias, callback) {
     try {
         let datos = rows[0];
         // Create a document
@@ -32,7 +32,7 @@ exports.generarPDFAnalitico = function(rows, db, observaciones, res, callback) {
         doc.addPage();
 
         //tabla con examenes y totales
-        generarTablaExamenes(rows, 35, 250, doc, db);
+        generarTablaExamenes(rows, arrayConNombresDeMaterias, 35, 250, doc, db);
 
         // HTTP RES
         doc.pipe(res);
@@ -157,7 +157,7 @@ function sanitizarDatoTitulo(data) {
     }    
 }
 
-function generarTablaExamenes(data, x, y, documento, db) {
+function generarTablaExamenes(data, nombresDeMateriasArr,x, y, documento) {
     let cantAprobadas = 0;
     let acuAprobadas = 0;
     let cantReprobadas = 0;
@@ -190,36 +190,11 @@ function generarTablaExamenes(data, x, y, documento, db) {
     }  
     //Llenar la info de la tabla
     y+=4;
-    data.forEach( (row) => {
-        // Obtener nombre de la materia a partir de su numero
-        let nroMateria = String(row.MATERIA);
-        let materiaName;
-        switch(nroMateria.length) {
-            case 1:
-                nroMateria = '00' + nroMateria;
-                break;
-            case 2:
-                nroMateria = '0' + nroMateria;
-                break;
-            default:
-                break;
-        }
-        let codigoMateria = row.NUMERO_CARRERA + row.PLAN + nroMateria;
-        db.obtenerNombreMateria(codigoMateria, (err, nombreMateria) => { 
-            if(err) {
-                console.log('Hubo un error: ', err);
-            } else {
-                try {
-                    materiaName = nombreMateria[0][Object.keys(nombreMateria[0])[0]];
-                    console.log(materiaName);
-                    //documento.text(materiaName, x + 20, y);
-                } catch (error) {
-                    console.log(error);
-                }                                               
-            }
-        });     
-        
-        documento.text(materiaName, x + 20, y);
+    nombresDeMateriasArr.forEach((materiaName) => {
+        documento.text(materiaName, x+20, y);
+        y+=15;
+    });
+    data.forEach( (row) => {     
         if(row.NOTA >= 4) { 
             cantAprobadas++;
             acuAprobadas+=parseInt(row.NOTA);
@@ -227,7 +202,6 @@ function generarTablaExamenes(data, x, y, documento, db) {
             cantReprobadas++;
             acuReprobadas+=parseInt(row.NOTA);
         }
-        y+=15;
     });
     //Totales
     y+=12;

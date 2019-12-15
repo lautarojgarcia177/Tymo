@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const db = require('./back/database_module');
 const pdfanalitico = require('./back/reportes/analitico_generator');
+const aux = require('./back/auxiliares');
 
 //middleware
 app.use('/', express.static(path.join(__dirname, 'public')));
@@ -83,12 +84,14 @@ app.get('/analitico', (req,res) => {
             if (err) {
                 res.statusCode = 500;
                 res.end('Ha ocurrido un error al consultar los datos: ' + err.message);
-            } else {            
-                pdfanalitico.generarPDFAnalitico(rows, db, req.query.observaciones, res, (err) => {
-                    if (err) {
-                        res.statusCode = 500;
-                        res.end('Hubo un error al generar el pdf: ' + err.message);
-                    }
+            } else { 
+                aux.generarArrayConNombresDeMaterias(rows, db, (arrayConNombresDeMaterias) => {
+                    pdfanalitico.generarPDFAnalitico(rows, db, req.query.observaciones, res, arrayConNombresDeMaterias, (err) => {
+                        if (err) {
+                            res.statusCode = 500;
+                            res.end('Hubo un error al generar el pdf: ' + err.message);
+                        }
+                    });
                 });
             }
         });
